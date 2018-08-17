@@ -175,4 +175,3 @@ class BasicIntQueue extends IntQueue{
 trait  Doubling extends IntQueue{
      abstract override def put(x:Int) { super.put(2*x)}//super是上一层级的对象，这里是 BasicIntQueue
 }
-

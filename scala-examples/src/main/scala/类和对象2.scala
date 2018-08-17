@@ -53,5 +53,7 @@ abstract class Element {
   override def toString = contents mkString "\n"
 }
 
+//case会自动生成伴生对象:object Point{def apply(a:Int,b:Int):Point=new Point(a,b)}
+case class Point(a:Int,b:Int){}
 
 

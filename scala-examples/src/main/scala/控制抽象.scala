@@ -18,6 +18,10 @@ object 测试 {
 
     //测试thread函数,自己定义线程函数后，调用一个线程是如此的简单
     thread({println("....");Thread.sleep(5000);println("End.")})
+
+    //给Block函数传递一个没有任何参数的Block块，这时可以省略掉()=>,下面两个调用是等价的
+    Block(()=>{println("Hello")})
+    Block({println("Hello")}) //省略掉()=>
   }
 
   /**
@@ -158,6 +162,11 @@ object 测试 {
 
     def matches(file: File, regex: String) =
       list(file) { _.matches(regex) }
+  }
+
+  //定义时只能省略掉(),调用时可以省略掉()=>
+  def Block(b: =>Unit): Unit ={
+    b
   }
 }
 

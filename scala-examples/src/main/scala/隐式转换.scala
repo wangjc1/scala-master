@@ -1,3 +1,5 @@
+
+
 /**
  *
  * @author  wangjc
@@ -30,9 +32,26 @@ object 隐式转换 {
     val person = Person("xiaohong", 1)
     println(person + 1) //2
 
-    implicit def plus(x: Int) = Person("Empty", x)
+    //1 + person，本来是不能运算的，但如果把Int类型转换成Person，然后因为Person重载了+操作符，就成了Person + Person了，这样就可以操作了
+    implicit def Int2Person(x: Int) = Person("Empty", x)
     println(1 + person) //2,相当于1.+(person)
+    println(person + 1) //无需隐式转换，相当于调用person.+(1)
+
+    //定义一个富File来扩展现有的File功能，
+    import java.io.File
+    val file = new File("D:\\controller.log")
+    implicit def File2RichFile(from:File) = new RichFile(from)
+    println(file.read)
+
   }
+
+  //利用隐式转换类扩展现有的类库
+  import java.io.File
+  import scala.io.Source
+  class RichFile(val file:File){
+    def read=Source.fromFile(file).getLines().mkString
+  }
+
 
   /*
    隐式参数
