@@ -48,12 +48,13 @@ object 泛型和界定 {
 
 
   /*
+     上下文界定：
    * 视图界定T<%V 要求必须存在一个从T到V的隐式转换。
    * 上下文界定的形式为T:M, 其中M是另一个泛型类，它要求必须存在一个类型为M[T]的“隐形值”
    *  例如 class Pair[T: Ordering]
    * 上述定义要求必须存在一个类型为Ordering[T]的隐式值。 该隐式值可以被用在该类的方法中
    * Ordering 实现了Comparator接口
-   * 当你声明一个使用隐式值的方法时，需要添加一个"隐式参数" *
+   * 当你声明一个使用隐式值的方法时，需要添加一个"隐式参数"，调用samller方法时，因为是隐式参数，所以不需要传入任何参数
    * @see 请看《隐式转换》中的参数转换内容
    */
   case class PairContext[T:Ordering](val first:T,val second : T){
