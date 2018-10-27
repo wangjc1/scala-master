@@ -23,6 +23,20 @@ object 函数 {
     //op相当于：val op :(Double) => Double =_ + 1，第一次调用op(x)=5+1，第二次调用op(6)=6+1
     def twice(op: Double => Double, x: Double) = op(op(x))
     twice(_ + 1, 5) //7.0
+
+    //val定义值时，会做call-by-value操作，
+    //def则会做call-by-name操作,就是先声明一个函数或变量而不计算后面的内容。
+    //使用 def 每次都会重新进行取值。
+    //那么对应上面的情况，如果文件内容改变，由于方法体在被调用时会重新执行，将得到被修改后文件的内容。
+    {
+    // 这是一个死循环
+    def loop: Boolean = loop
+    // 用val定义时会做call-by-value，以下语句会block住
+    val x = loop
+    // 用def定义时，是做的call-by-name。故以下语句暂时不会执行，在用到y的时候才做evaluation
+    def y = loop
+    }
+
   }
 
 
