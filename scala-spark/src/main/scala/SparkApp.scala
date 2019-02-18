@@ -10,7 +10,6 @@ object SparkApp {
 
     def main(args: Array[String]): Unit = {
         sortByKey()
-
     }
 
     /**
