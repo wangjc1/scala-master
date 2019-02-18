@@ -15,6 +15,19 @@ object 集合 {
     java集合互转换()
     并行集合()
     集合中的对象()
+
+    some2List()
+  }
+
+  def some2List(): Unit = {
+    val dirs = mutable.ArrayBuffer("abc","abcd","abcde")
+    val jobs = for {
+      dir <- Option(dirs).toList
+      logDir <- dir
+    } yield {
+      logDir +"\n"
+    }
+    print(jobs)
   }
 
   def  不可变集合运算符(): Unit = {
