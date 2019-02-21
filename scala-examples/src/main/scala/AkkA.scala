@@ -3,9 +3,9 @@ import scala.actors._, Actor._
 /**
  *
  * @author  wangjc
- *          2018/7/4
+ *  参考 ： https://blog.csdn.net/zhaoxiangchong/article/details/82252336
  */
-object 多线程 {
+object AkkA {
   def main(args: Array[String]) {
 
     //第一种创建线程的方法
@@ -69,7 +69,6 @@ object 多线程 {
         }
       }
     }
-
 
   }
 }

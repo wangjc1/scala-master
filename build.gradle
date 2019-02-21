@@ -1,0 +1,108 @@
+///////////////////////////////////////////////
+// 本工程采用一站式配置，将公共配置放到 allprojects{} 中
+// 将子工程配置放到 subprojects{} 中
+// 将定制化工程放到 project(':工程名称'){} 中
+//
+///////////////////////////////////////////////
+
+allprojects {
+    //新版本使用plugin {id}，老版本使用apply plugin语法来下载插件，但在闭包中只能用apply plugin语法
+    apply plugin: 'idea'
+
+    version '1.0'
+
+    repositories {
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+    }
+
+    //清除上次的编译过的文件
+    task clearPj(type:Delete){
+        delete 'build','target','out'
+    }
+}
+
+//子工程配置可以放到这里
+//这里有个注意的地方就是，某些变量或方法，只有引入了相关插件才能使用
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'scala'
+
+    //定义java代码编译级别，依赖java plugin
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    //compile方法同样也依赖java plugin
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        compile "org.scala-lang:scala-library:2.11.8"
+    }
+
+    //jar方法同样也依赖java plugin
+    jar {
+        manifest {
+            attributes 'Main-Class': 'com.wjc.scala.HelloWorld'
+        }
+    }
+
+    //依赖编译，然后打包JAR
+    task taskJar(type:Jar, dependsOn: [compileJava,compileScala]) {
+        from 'build/classes'
+        destinationDir = file('build/libs')
+    }
+
+    //把JAR复制到目标目录
+    task release(type: Copy,dependsOn: [clearPj,taskJar]) {
+        from('build/libs') {
+            include '*.jar'
+        }
+        into('target')
+    }
+}
+
+//配置scala-spark子工程
+project(':scala-spark') {
+    dependencies {
+        implementation("org.apache.spark:spark-core_2.11:2.3.3") {
+            exclude group: 'org.scala-lang', module: 'scala-library'
+        }
+    }
+    //定制化工程目录
+    sourceSets {
+        main {
+            scala
+                    { srcDirs = ['src/main/scala', 'src/main/resources'] }
+            java
+                    { srcDirs = ['src/main/java', 'src/main/resources'] }
+        }
+        test {
+            scala
+                    { srcDirs = ['src/test/scala', 'src/test/resources'] }
+            java
+                    { srcDirs = ['src/test/java', 'src/test/resources'] }
+        }
+    }
+
+    //初始化工程目录，使用命令： gradle createDirs
+    task "createDirs" << {
+        sourceSets*.scala.srcDirs*.each { it.mkdirs() }
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    }
+}
+
+//配置scala-examples子工程
+project(':scala-examples') {
+    dependencies {
+        //implementation和compile方法功能类似，都是引入依赖包
+        implementation  ('org.scala-lang:scala-actors:2.11.8') {
+            //排除scala-lang语言包，这个包已经在subprojects{}引入过了
+            exclude group: 'org.scala-lang', module: 'scala-library'
+        }
+        implementation  ('org.scala-lang.modules:scala-xml_2.11:1.0.4') {
+            exclude group: 'org.scala-lang', module: 'scala-library'
+        }
+    }
+}
+
