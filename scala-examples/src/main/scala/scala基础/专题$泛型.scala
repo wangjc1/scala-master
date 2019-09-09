@@ -1,17 +1,11 @@
+package scala基础
 
 /**
   *
-  * @author wangjc
-  *         2018/6/29
   */
-object 泛型 {
-
-    def main(args: Array[String]) {
-
-    }
-
+object 专题$泛型 extends App {
     /*
-     泛型类
+    泛型类
     */
     class Pair[T](val first: T, val second: T)
 
@@ -32,10 +26,12 @@ object 泛型 {
 
 
     /*
-      视图界定：刚才将的类型变量界定建立在类继承层次结构的基础上，但有时候这种限定不能满足实际要求，如果希望跨越类继承层次结构时，
-             可以使用视图界定来实现的，其后面的原理是通过隐式转换（我们在下一讲中会详细讲解什么是隐式转换）来实现。视图界定利用<%符号来实现。
+      视图界定：上限和下限，类与类之间必须存在继承关系，例如上面的例子T <: Comparable[T]，所有的类型都必须继承Comparable类，
+      但是如果不想继承Comparable接口，又想使用Comparable.compareTo(...)的方法，就可以使用视图界定
+      其原理是通过隐式转换来实现，视图界定利用<%符号来实现
+
     */
-    def agreement(): Unit = {
+   {
         class Student[T <: Comparable[T]](val first: T, val second: T) {
             def smaller = if (first.compareTo(second) < 0) first else second
         }
@@ -60,7 +56,7 @@ object 泛型 {
       要想让scala的泛型支持逆变，在泛型前面再加一个"-"
       但是一个类不能同时支持协变和逆变
     */
-    def covariance(): Unit = {
+   {
         class Person {}
         class Student extends Person {}
         class Teacher extends Person {}
@@ -68,20 +64,26 @@ object 泛型 {
         //支持协变的泛型类
         class A[+T] {}
         val a1: A[Person] = new A[Person]()
-        val a2: A[Person] = new A[Student]() //转换成子类
+        //协变的意思是如果Student是Person的子类，那么A[Person]是A[Student]的子类
+        val a2: A[Person] = new A[Student]()
 
         //支持逆变的泛型类
         class B[-T] {}
         val b1: B[Person] = new B[Person]()
-        val b2: B[Student] = new B[Person]() //转换成父类
+        //逆变和协变正好相反，是如果Student是Person的子类，那么A[Student]是A[Person]的子类
+        val b2: B[Student] = new B[Person]()
     }
 
     /*
       类型通配符:
       类型通配符是指在使用时不具体指定它属于某个类，而是只知道其大致的类型范围
       通过”_<:” 达到类型通配的目的
+      TODO:搞不清类型通配符和上限的区别
     */
-    def typeWildcard: Unit = {
+    {
+        //这是Java中定义的通配符
+        //void makeFriends(List<? extends Person> people) {}
+
         class Person(val name: String) {
             override def toString() = name
         }
@@ -96,41 +98,40 @@ object 泛型 {
             println(p.first + " is making friend with " + p.second)
         }
 
-        makeFriends(new Pair(new Student("john"), new Teacher("摇摆少年梦")))
+        makeFriends(new Pair(new Student("john"), new Teacher("darker")))
     }
 
-    //type T定义一种类型
-    trait Abstract {
-        type T
+    /***  泛型类型 ***/
+   {
+       trait Abstract {
+           type T
 
-        def transform(x: T): T
+           def transform(x: T): T
 
-        val initial: T
-        var current: T
-    }
+           val initial: T
+           var current: T
+       }
+       class Concrete extends Abstract {
+           type T = String
 
-    class Concrete extends Abstract {
-        type T = String
+           def transform(x: T) = x + x
 
-        def transform(x: T) = x + x
+           val initial = "hi"
+           var current = initial
+       }
 
-        val initial = "hi"
-        var current = initial
-    }
+       //用泛型和上面的type差不多
+       trait Abstract2[T] {
+           def transform(x: T): T
 
-    //用泛型和上面的type差不多
-    trait Abstract2[T] {
-        def transform(x: T): T
-
-        val initial: T
-        var current: T
-    }
-
-    class Concrete2 extends Abstract2[String] {
-        def transform(x: String) = x + x
-
-        val initial = "hi"
-        var current = initial
-    }
+           val initial: T
+           var current: T
+       }
+       class Concrete2 extends Abstract2[String] {
+           def transform(x: String) = x + x
+           val initial = "hi"
+           var current = initial
+       }
+   }
 
 }

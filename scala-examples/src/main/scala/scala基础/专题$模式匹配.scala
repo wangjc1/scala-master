@@ -1,11 +1,11 @@
-import scala.math._
+package scala基础
 
 /**
  *
  * @author  wangjc
  *          2018/6/28
  */
-object 模式匹配 {
+object 专题$模式匹配 {
 
   def main(args: Array[String]) {
     OptioAndSome()
@@ -82,7 +82,7 @@ object 模式匹配 {
     println(n)
 
     //case后如果不用`pi`符号包括，则scala编译器认为pi是个变量，可以匹配任何值，从而代码根本不会往后执行
-    import math.{E,Pi}
+    import math.E
     val pi = Math.PI
     var p = E match {
       //如果本地也有个变量叫pi，则用`pi`符号包裹后才能识别成本地变量，否则会认为是个变量

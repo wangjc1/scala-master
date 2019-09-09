@@ -1,3 +1,5 @@
+package scala基础
+
 import java.io.{PrintWriter, File}
 
 /**
@@ -5,7 +7,7 @@ import java.io.{PrintWriter, File}
  * @author  wangjc
  *          2018/6/27
  */
-object 测试 {
+object 专题$控制抽象 {
   def main(args: Array[String]) {
     for(f<-搜索文件第3版_柯里化.ends(new File("D:\\Personal\\books"),"doc")) println(f)
 

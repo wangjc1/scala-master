@@ -1,12 +1,14 @@
-import scala.collection.mutable.ArrayBuffer
+package scala基础
+
 import java.awt.event.ActionEvent
-import java.io.File
+
+import scala.collection.mutable.ArrayBuffer
 
 /**
   *
   * https://blog.csdn.net/lovehuangjiaju/article/details/47381601
   */
-object 高级类型 {
+object 专题$高级类型 {
   def main(args: Array[String]): Unit = {
 
     //18.5 结构化类型

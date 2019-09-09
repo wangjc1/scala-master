@@ -1,6 +1,7 @@
+package scala基础
 
 
-object 协变和逆变 {
+object 专题$协变和逆变 {
 
   def main(args: Array[String]): Unit = {
 
@@ -38,14 +39,14 @@ object 协变和逆变 {
 
     //逆变点：如果类定义成A[+T] ，func()编译不通过，因为如果定义成协变会导致子类中func方法参数范围变小
     //我们完全可以把它看做一个函数类型，即 A => Unit 与 Function1[-A, Unit]等价，而
-    class A[-T] {
+    class A[-T] {//传入子类
       def func(x: T) {}
     }
 
     //协变点：如果类定义成A[-T] ，func()编译不通过，因为如果定义成逆变会导致子类中func方法返回值处理能力变小
     //则与 Function[+A] 等价。
     class In[+A]{
-      def func(): A = null.asInstanceOf[A]
+      def func(): A = null.asInstanceOf[A] //转换成父类
     }
 
   }

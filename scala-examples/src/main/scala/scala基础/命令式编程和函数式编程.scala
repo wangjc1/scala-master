@@ -1,3 +1,5 @@
+package scala基础
+
 /**
  *
  * @author  wangjc

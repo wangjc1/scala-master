@@ -1,4 +1,4 @@
-package scala进阶
+package scala基础
 
 
 import scala.collection.mutable
@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   *
   */
-class 专题$集合 extends App {
+object 专题$集合 extends App {
 
     def some2List(): Unit = {
         val dirs = mutable.ArrayBuffer("abc", "abcd", "abcde")

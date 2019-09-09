@@ -1,4 +1,4 @@
-package scala进阶
+package scala基础
 
 /**
  apply方法

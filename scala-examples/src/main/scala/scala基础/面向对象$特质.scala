@@ -1,4 +1,4 @@
-package scala进阶
+package scala基础
 
 /**
   * @see https://www.cnblogs.com/nowgood/p/scalatrait.html

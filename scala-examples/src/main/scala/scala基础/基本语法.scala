@@ -1,4 +1,4 @@
-package scala进阶
+package scala基础
 
 /**
   * https://www.jianshu.com/p/32b5d65226b8

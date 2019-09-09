@@ -1,3 +1,5 @@
+package scala基础
+
 /**
  * 汇率转换成同一种汇率可以相加，不同的汇率不能相加
  * @author wangjc
