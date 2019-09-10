@@ -87,6 +87,14 @@ object 集合 extends App {
     a1.filter(_ % 2 == 0).map(2 * _)
     a1.filter { _ % 2 == 0 } map { 2 * _ }
 
+    //二维数组
+    val matrix = Array.ofDim[Int](3, 4)
+    matrix(1)(1) = 20
+    matrix(1).update(2,5)
+    for(row <- 0 until matrix.length; col <- 0 until matrix(row).length){
+        println(s"($row,$col) = ${matrix(row)(col)}")
+    }
+
 
     ///// List 可重复集合
     val list = List(1,1,1,4,2)
